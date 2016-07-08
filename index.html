@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>sea</title>
+	<link rel="stylesheet" href="./css/reset.css">
+	<link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+	<script src="./js/sea.js"></script>
+
+	<script type="text/javascript">
+		seajs.config({
+			// 激活 shim 插件
+			plugins: ['shim']
+		 
+			// shim 配置项
+			,alias: {
+				// jQuery 的 shim 配置
+				'jquery': 'lib/jquery-1.8.3',
+			}
+		 
+			,paths:{
+				'js':'./js/'//这个路径是以sea.js文件为基础的
+			}
+		 
+			,map:[
+				//防止js文件夹下的文件被缓存
+				[/(.*js\/[^\/\.]*\.(?:js))(?:.*)/,'$1?_='+new Date().getTime()]
+			]
+		 
+			,debug:true
+		});
+
+		seajs.use("main",function($){
+			//回调函数
+			;
+		});
+
+	</script>
+
+<!-- 	<div id="f">kkk</div>
+	<ui>
+		<li><a href="#">home</a></li>
+		<li><a href="#product">product</a></li>
+		<li><a href="#connat">connat</a></li>
+	</ui>
+	<div id="home">中文</div> -->
+</body>
+</html>
