@@ -12,6 +12,6 @@ define(function(require, exports, module) {
   
   //动态路由模块
   var router = require( './router' );
-  router();
+  new router().init();
 
 });
