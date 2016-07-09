@@ -6,14 +6,41 @@ define( function(require, exports, module){
 
 	function footer(){
 		//render footer UI;
-		new component().renderFooter();
+		new component()
+		.on('loaded',function(){
+			 new customService()
+				 .on('loaded',function(){
+				 	$('.footer_icon_service a').animate({"opacity":'0.3'},'fast').mouseenter(function(event){
+				 		$(this).css('cursor','not-allowed');
+				 	})
+				 })
+				 .on('destructor',function(){
+				 	$('.footer_icon_service a').animate({"opacity":'1'},'fast').mouseenter(function(event){
+				 		$(this).css('cursor','pointer');
+				 	})
+				 })
+				 .init();
+		})
+		.init({
+			shareHandler:function(){
+				alert('未设置！');
+			},
+			weiboHandler:function(){
+				window.location.href = 'http://weibo.com/';
+			},
+			phoneHandler:function(){
+				new share().init();
+			},
+			serviceHandler:function(){
+				new customService().init();	
+			}
+		});
 	}
 
 
 	function component(){
 		this.config = {
 			description :"COPYRIGHT (©) 2016 深山老林 kanglin Chen.",
-			weiboLink :'http://weibo.com/',
 		}
 	}
 	component.prototype = $.extend({}, new widget(), {
@@ -30,46 +57,46 @@ define( function(require, exports, module){
 
 		bindUI:function(){
 			var _that = this;
-			$( ".footer_icon_weibo" ).on('click',function(event){
-				event.preventDefault();
-				window.location.href = _that.config.weiboLink;
-			});
 
-			$(".footer_icon_share").on('click',function(){
-				event.preventDefault();
-				alert('未设置');
-			})
+			this.fire( 'loaded' );
 
-			$('.footer_icon_phone').on('click',function(event){
-				event.preventDefault();
-				//加载分享模块
-				 new share().renderShare() ;
-			})
-
-			this.on('service',function(){
-
-				 new customService().renderCustomService();
+			if(_that.config.weiboHandler ){
+				$( ".footer_icon_weibo" ).on('click',function(event){
+					event.preventDefault();
+					_that.config.weiboHandler();
+				});
+			};
 
 
-			});
-
-			//主动加载 客服中心模块
-			this.fire('service');
-
+			if( _that.config.shareHandler ){
+				$(".footer_icon_share").on('click',function(event){
+					event.preventDefault();				
+					_that.config.shareHandler();
+				});
+			}
 			
 
-			$( ".footer_icon_service" ).on("click",function(event){
-				event.preventDefault();
-				
-				new customService().renderCustomService();
-				
-			})
+			if( _that.config.phoneHandler ){
+				$('.footer_icon_phone').on('click',function(event){
+					event.preventDefault();
+					_that.config.phoneHandler()
+				})
+			}
 
-
+			if( _that.config.serviceHandler){
+				$( ".footer_icon_service" ).on("click",function(event){
+					event.preventDefault();				
+					_that.config.serviceHandler();		
+				})
+			}
 
 		},
 
-		renderFooter:function(config){
+		destructor:function(){
+			this.fire('destructor');
+		},
+
+		init:function(config){
 			$.extend(this.config, config);
 			this.render( $("#footer") );
 			return this;			

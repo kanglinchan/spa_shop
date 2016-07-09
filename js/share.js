@@ -6,7 +6,7 @@ define( function( require, exports, module ){
 		this.config ={ 
 			imgQrcode : './img/qrcode.jpg',
 			opacity: 0.6,
-			imgWidth: 200,
+			imgWidth: 200
 		}
 	}
 
@@ -23,9 +23,10 @@ define( function( require, exports, module ){
 
 		bindUI:function(){
 			var _than = this;
+			this.fire('loaded');
 			$(".share_mask").on("click",function(){
 				$(".share_box").animate({"marginTop":'-1000'},'1.5s');
-				$(this).animate({'opacity':'0',}, '1s',function(){
+				$(this).animate({'opacity':'0'}, '1s',function(){
 					_than.destroy();
 				});
 				
@@ -38,20 +39,21 @@ define( function( require, exports, module ){
 			$(".share_box").css({
 				'width': this.config.imgWidth+'px',
 				'marginLeft': ( $(window).width() - this.config.imgWidth )/2+'px',
-				'marginTop': ( $(window).height() - this.config.imgWidth )/2+'px',
+				'marginTop': ( $(window).height() - this.config.imgWidth )/2+'px'
 			});
 		},
 
 		destructor:function(){
+			this.fire('destrutor');
 			$(".share_mask").remove();
 		},
 
 
-		renderShare:function(cfg){
+		init:function(cfg){
 			$.extend(this.config, cfg);
 			this.render();
 			return this;		
-		},
+		}
 
 	});
 

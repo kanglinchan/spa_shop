@@ -37,7 +37,7 @@ define( function(require, exports, module){
 			  $body.append('<div id='+ this.config.layout[i] +'></div>');
 			}
 			return this;
-		},
+		}
 	});
 	
 

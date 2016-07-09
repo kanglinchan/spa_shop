@@ -3,6 +3,8 @@ define( function( require, exports, module ){
 	var $ = require('jquery');
 	function widget(){
 		this.boundingBox = null;
+		//事件列表
+		this.listenList = {};
 	}
 
 	widget.prototype = {
@@ -12,6 +14,7 @@ define( function( require, exports, module ){
 				this.listenList[type] = [];
 			}
 			this.listenList[type].push(handler);
+			return this;
 		},
 
 		//触发事件
@@ -37,8 +40,6 @@ define( function( require, exports, module ){
 		render: function( container ){
 			this.renderUI();
 			$( container || document.body ).append( this.boundingBox );
-			//清空订阅事件列表
-			this.listenList = {};
 			this.bindUI();
 			this.syncUI();			
 		},

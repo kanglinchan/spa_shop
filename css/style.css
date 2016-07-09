@@ -1,11 +1,12 @@
 
+html,body{height: 100%; width: 100%; overflow: hidden;}
 
 #header,#content,#footer{  position: absolute; right: 0; left: 0;}
 #header{ height: 60px; top: 0;}
 #footer{ height: 35px;  bottom: 0;}
 #content{ top:60px; bottom: 35px; overflow: auto; background-color: #222; z-index: -1;}
 #nav_header{height: 60px;background: #eee;}
-.nav_logo img{height: 32px; padding:14px 36px;}
+.nav_logo img{height: 32px; padding:12px 36px;}
 .nav_navBox {position: absolute;top: 0;right: 0;margin:0px 36px;}
 #nav_header .nav_active { background-color:#ff072a;color: #fff;}
 .nav_item { float: left; margin-left: 1px; padding: 14px 0px;}
@@ -45,7 +46,7 @@
 .custom_service i{width: 20px; height: 20px; display: block; position: absolute;  margin: 10px 20px;  background-repeat: no-repeat;  }
 .custom_service p{ text-indent: 50px; }
 .custom_service li{ color:#565656; font-size: 16px; line-height: 40px; background: #fff;}
-.custom_service .custom_service_title{ color: #fff; font-size: 18px; line-height: 60px; text-indent: 10px; height: 60px; background: #ff072a; }
+.custom_service .custom_service_title{ color: #fff; font-size: 18px; line-height: 60px; text-indent: 10px; background: #ff072a; }
 .custom_service_title div{ transition: 1s;
 		-moz-transition: -moz-transform 1s; /* Firefox 4 */
 		-webkit-transition: -webkit-transform 1s; /* Safari and Chrome */

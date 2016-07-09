@@ -3,49 +3,16 @@ define( function(require, exports , module){
 	var widget = require( './widget' );
 
 	function nav(){
-		//alert('nav');
-		
-		
-
-		new navComponent().navRender({
-			handlerNavChange:function(){
-				$("#nav_header a").each(function(index, el) {
-					if(this.className == 'nav_active'){
-						$(this).removeClass('nav_active');
-					}
-				});
-
-				var address = location.hash.match(/^#[\w\_\-]*/,'i');
-				 if( address == null || address == '#home'){
-					address = '#home';
-					$(".nav_item a:first").addClass('nav_active');
-				 }else{
-				 	$(".nav_item").each(function(index, el) {
-						$firstATag = $('a:first',this);
-						$('a',this).each(function(index, el) {
-							if( this.href.match(address[0]) ){
-								$firstATag.addClass('nav_active');
-							}
-						});
-					});
-				 }
-			} ,
-		});
-
-		
-
-
-
+		new component().init();
 	}
 
-	function navComponent(){
-		//alert( 'nave'  );
+	function component(){
 		this.config = {
-			logoImg:'./img/logo.png',
+			logoImg:'./img/logo.png'
 		}
 	}
 
-	navComponent.prototype = $.extend({}, new widget() , {
+	component.prototype = $.extend({}, new widget() , {
 		renderUI: function(){
 			this.boundingBox = $(
 				'<div id="nav_header">'+
@@ -70,7 +37,9 @@ define( function(require, exports , module){
 		},
 
 		bindUI:function(){
-			var _than = this;
+			var _that = this;
+
+			this.fire('loaded');
 
 			$('.nav_item_has_child').hover(function() {
 				$("ul",this).css('display','block');
@@ -86,17 +55,43 @@ define( function(require, exports , module){
 				$('i',this).css('display','none');
 			});
 
-			//主动触发nav event
-			this.config.handlerNavChange();
+			this.on('listenHash',function(){
 
-			//hash chnage triggle
+				$("#nav_header a").each(function(index, el) {
+					if(this.className == 'nav_active'){
+						$(this).removeClass('nav_active');
+					}
+				});
+
+				var address = location.hash.match(/^#[\w\_\-]*/,'i');
+
+				 if( address == null || address == '#home'){
+
+					address = '#home';
+					$(".nav_item a:first").addClass('nav_active');
+
+				 }else{
+				 	$(".nav_item").each(function(index, el) {
+
+						$firstATag = $('a:first',this);
+						$('a',this).each(function(index, el) {
+							if( this.href.match(address[0]) ){
+								$firstATag.addClass('nav_active');
+							}
+						});
+
+					});
+				 } 
+			});
+
 			$(window).on('hashchange',function(){
-				_than.config.handlerNavChange();
-			})
+				_that.fire('listenHash');
+			});
 
+			_that.fire('listenHash');
 		},
 
-		navRender:function(cfg){
+		init:function(cfg){
 			$.extend(this.config, cfg);
 			this.render( $("#header") );
 			return this;

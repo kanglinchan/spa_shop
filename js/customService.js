@@ -8,11 +8,12 @@ define( function(require, exports, module){
 			tel:'150-150-567-50',
 			qq_costom_service:[{
 				link:'http://sighttp.qq.com/authd?IDKEY=223d133740d46b8614858a8464c82773d33e9de4e1349795',
-				qq:'601168226',
+				qq:'601168226'
 			},{
 				link:'http://sighttp.qq.com/authd?IDKEY=223d133740d46b8614858a8464c82773d33e9de4e1349795',
-				qq:'601168226',
-			}],
+				qq:'601168226'
+			}]
+
 			
 		}
 	};
@@ -51,6 +52,7 @@ define( function(require, exports, module){
 
 		bindUI:function(){
 			var _that = this;
+			this.fire('loaded');
 			$('.custom_service_close').on('click',function(event){
 				event.preventDefault();
 				_that.destroy();
@@ -65,7 +67,11 @@ define( function(require, exports, module){
 			})
 		},
 
-		renderCustomService:function(config){
+		destructor:function(){
+			this.fire('destructor');
+		},
+
+		init:function(config){
 			 if( $(".custom_service")[0] != null ){
 			 	return;
 			 }
