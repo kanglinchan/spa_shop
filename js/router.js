@@ -1,10 +1,12 @@
 define( function(require, exports, module){
 	var $ = require('jquery');
 
-	function router(){
+	function router(config){	
 		this.config = {
 			defaulComponent : 'home',
 		}
+		$.extend(this.config, config);
+		
 	}
 
 	router.prototype.init = function(){	
@@ -34,16 +36,15 @@ define( function(require, exports, module){
 
 			 //异步加载模块		
 			require.async('./'+componentName, function( component ){		
-				try{
+
 					//hash变化时注销当前组件
-					_that.currentComponent.destroy();
+					_that.currentComponent.destroy&& _that.currentComponent.destroy();
+
 					//保存新的组件对象
-				   	_that.currentComponent = new component();
-				}catch(error){
-					if( error.message == "component is not a constructor" ){
-						alert('404');
+					if( component ){
+						_that.currentComponent = new component();
 					}
-				}
+				   	console.dir( _that.currentComponent );				
 				
 			})
 		})

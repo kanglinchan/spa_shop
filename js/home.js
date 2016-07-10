@@ -1,10 +1,10 @@
 define(function(require, exports, module){
 	var $ =require( 'jquery' );
 	var widget = require( './widget' );
+	require('./mouseWheel')($);
 
 	function home(){
-		
-		
+				
 		return new component().init();
 	}
 
@@ -32,18 +32,34 @@ define(function(require, exports, module){
 		
 			this.fullPage_nav = $('<ui class="fullPage_nav">'+ fullPageNavContent +'</ui>');
 
-			this.fullPage_nav.appendTo('#content');
+			this.fullPage_nav.appendTo('body');
 
 		},
 
 		bindUI:function(){
-			var Y = 0;
+			var previouY = 0;
+			var contentH = $("#content").height();
+			var count = 0;
 
 			$("#content").on('scroll',function(){
-				console.log($("#content").scrollTop());
+				/*console.log($(this).scrollTop());
+
+				var diff = $(this).scrollTop() - previouY ;
+
+				if( diff > 0){
+					count++;
+				}
+				if( diff < 0){
+					count++; 
+				}
+				previouY = contentH * count  + 'px';*/
+				console.log(  $(this).scrollTop() );
+
 			});
 
 			this.fire('loaded');
+
+			$("#content").mouseWheel();
 		},
 
 		syncUI:function(){
@@ -54,7 +70,7 @@ define(function(require, exports, module){
 
 		destructor:function(){
 			this.fire('destructor');
-			alert('hello destroy');
+			console.log('hello destroy');
 		},
 
 		init:function(config){

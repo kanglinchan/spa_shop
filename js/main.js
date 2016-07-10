@@ -9,9 +9,5 @@ define(function(require, exports, module) {
   var publicComponent = require( './publicComponent' );
   var pc = new publicComponent();
   console.log(pc.setLayout().requirePublicComponent());
-  
-  //动态路由模块
-  var router = require( './router' );
-  new router().init();
 
 });

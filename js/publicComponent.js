@@ -11,11 +11,17 @@ define( function(require, exports, module){
 
 		$.extend(this.config,cfg );
 
+		//动态路由模块
+		var router = require( './router' );
+		new router().init();
+
 	}
 
 	publicComponent.prototype = $.extend({}, {
+
 		requirePublicComponent:function(){
 			var _that =this;
+			//加载自定义模块
 			if( this.config.components[this.config.current] ){
 				console.log('./'+ this.config.components[this.config.current]);
 				require.async('./'+this.config.components[this.config.current], function(component){ //递归异步加载模块
@@ -23,8 +29,7 @@ define( function(require, exports, module){
 					//调用下一个公共模块;
 					_that.config.current++;
 					_that.requirePublicComponent();
-				});
-								
+				});	
 			}else{
 				return this;//成功加载全部模块 返回 true；
 			}
