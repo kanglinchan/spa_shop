@@ -2,6 +2,7 @@ define(function(require, exports, module){
 	var $ =require( 'jquery' );
 	var widget = require( './widget' );
 	require('./mouseWheel')($);
+	require('./jquery.easing')($);
 
 	function home(){
 				
@@ -12,7 +13,7 @@ define(function(require, exports, module){
 
 	function component(){
 		this.config = {
-			pageSize:3,
+			pageSize:6,
 		}
 	}
 
@@ -30,42 +31,68 @@ define(function(require, exports, module){
 			}
 			this.boundingBox = $('<ul class="fullPage_container">'+fullPageConyent+'</ul>');
 		
-			this.fullPage_nav = $('<ui class="fullPage_nav">'+ fullPageNavContent +'</ui>');
+			this.fullPage_nav = $('<ul class="fullPage_nav">'+ fullPageNavContent +'</ul>');
 
 			this.fullPage_nav.appendTo('body');
 
 		},
 
 		bindUI:function(){
-			var previouY = 0;
+			var _that = this;
 			var contentH = $("#content").height();
 			var count = 0;
 
-			$("#content").on('scroll',function(){
-				/*console.log($(this).scrollTop());
+			$('#content').css("overflow",'hidden');
 
-				var diff = $(this).scrollTop() - previouY ;
-
-				if( diff > 0){
+			$(".fullPage_container li").css('height',contentH);
+			var done = true;
+			$("#content").mouseWheel(function(event){
+				event.preventDefault()
+				if( done ){
+					done = false;
 					count++;
+					if( count >= _that.config.pageSize ){
+						count = _that.config.pageSize -1;
+					}
+					$(this).animate({"scrollTop":count * contentH },800 , 'easeOutBounce', function(){
+						done = true;
+					})
+					$( 'li',_that.fullPage_nav ).each(function(index, el) {
+						$(this).removeClass('active');
+					});
+					$('li:eq( '+count+' )',_that.fullPage_nav).addClass('active');
 				}
-				if( diff < 0){
-					count++; 
-				}
-				previouY = contentH * count  + 'px';*/
-				console.log(  $(this).scrollTop() );
 
+				
+				
+			},function( event ){
+				event.preventDefault();
+				if(done){
+					done = false;
+					count--;
+					if( count < 0 ){
+						count = 0;
+					}
+					$(this).animate({"scrollTop":count * contentH }, 800, 'easeOutBounce',function(){
+						done = true;
+					});
+					$( 'li',_that.fullPage_nav ).each(function(index, el) {
+						$(this).removeClass('active');
+					});
+					$('li:eq( '+count+' )',_that.fullPage_nav).addClass('active');
+				}
+				
 			});
 
 			this.fire('loaded');
-
-			$("#content").mouseWheel();
 		},
 
 		syncUI:function(){
 			this.fullPage_nav.css({
 				marginTop: ($(window).height() - this.fullPage_nav.height())/2 +'px',
 			});
+
+			$('li:first', this.fullPage_nav ).addClass('active');
 		},
 
 		destructor:function(){
