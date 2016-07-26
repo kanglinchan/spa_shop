@@ -23,7 +23,6 @@ define( function( require, exports, module ){
 
 		bindUI:function(){
 			var _than = this;
-			this.fire('loaded');
 			$(".share_mask").on("click",function(){
 				$(".share_box").animate({"marginTop":'-1000'},'1.5s');
 				$(this).animate({'opacity':'0'}, '1s',function(){
@@ -44,7 +43,6 @@ define( function( require, exports, module ){
 		},
 
 		destructor:function(){
-			this.fire('destrutor');
 			$(".share_mask").remove();
 		},
 

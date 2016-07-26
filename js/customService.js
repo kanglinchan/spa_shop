@@ -52,7 +52,6 @@ define( function(require, exports, module){
 
 		bindUI:function(){
 			var _that = this;
-			this.fire('loaded');
 			$('.custom_service_close').on('click',function(event){
 				event.preventDefault();
 				_that.destroy();
@@ -65,10 +64,6 @@ define( function(require, exports, module){
 				$('a',this).animate({"lineHeight":'40px'},'1s');
 				$('i',this).animate({"marginTop":'10px'},'1s');
 			})
-		},
-
-		destructor:function(){
-			this.fire('destructor');
 		},
 
 		init:function(config){

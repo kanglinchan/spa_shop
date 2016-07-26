@@ -38,9 +38,6 @@ define( function(require, exports , module){
 
 		bindUI:function(){
 			var _that = this;
-
-			this.fire('loaded');
-
 			$('.nav_item_has_child').hover(function() {
 				$("ul",this).css('display','block');
 			}, function() {

@@ -7,7 +7,7 @@ define( function(require, exports, module){
 	}
 	product.prototype = {
 		kk: function(){
-			alert( this.cfg.sd );
+			//alert( this.cfg.sd );
 			return this;
 		}
 	}

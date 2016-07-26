@@ -6,15 +6,15 @@ define( function(require, exports, module){
 
 	function footer(){
 		//render footer UI;
-		new component()
-		.on('loaded',function(){
+		new footerConponent()
+		.on('completed',function(){
 			 new customService()
-				 .on('loaded',function(){
+				 .on('completed',function(){
 				 	$('.footer_icon_service a').animate({"opacity":'0.3'},'fast').mouseenter(function(event){
 				 		$(this).css('cursor','not-allowed');
 				 	})
 				 })
-				 .on('destructor',function(){
+				 .on('destrutor',function(){
 				 	$('.footer_icon_service a').animate({"opacity":'1'},'fast').mouseenter(function(event){
 				 		$(this).css('cursor','pointer');
 				 	})
@@ -38,12 +38,12 @@ define( function(require, exports, module){
 	}
 
 
-	function component(){
+	function footerConponent(){
 		this.config = {
 			description :"COPYRIGHT (©) 2016 深山老林 kanglin Chen.",
 		}
 	}
-	component.prototype = $.extend({}, new widget(), {
+	footerConponent.prototype = $.extend({}, new widget(), {
 		renderUI:function(){
 			var footerContent ='<ul class = "footer_icon">'+
 				'<li> <p>'+this.config.description+'</p> </li>'+
@@ -57,9 +57,6 @@ define( function(require, exports, module){
 
 		bindUI:function(){
 			var _that = this;
-
-			this.fire( 'loaded' );
-
 			if(_that.config.weiboHandler ){
 				$( ".footer_icon_weibo" ).on('click',function(event){
 					event.preventDefault();
@@ -90,10 +87,6 @@ define( function(require, exports, module){
 				})
 			}
 
-		},
-
-		destructor:function(){
-			this.fire('destructor');
 		},
 
 		init:function(config){

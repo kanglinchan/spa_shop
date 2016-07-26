@@ -41,11 +41,13 @@ define( function( require, exports, module ){
 			this.renderUI();
 			$( container || document.body ).append( this.boundingBox );
 			this.bindUI();
-			this.syncUI();			
+			this.syncUI();
+			this.fire( 'completed' );			
 		},
 
 		//注销组件
 		destroy: function(){
+			this.fire('destrutor');
 			this.destructor();
 			this.boundingBox.off();
 			this.boundingBox.remove();
