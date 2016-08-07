@@ -1,5 +1,7 @@
 define( function( require, exports, module ){
 
+
+	var chain = require('./chain');
 	var $ = require('jquery');
 	function widget(){
 		this.boundingBox = null;
@@ -27,6 +29,9 @@ define( function( require, exports, module ){
 			}
 		},
 
+
+		//获取数据
+		getdata:function(){},
 		//渲染组件结构接口
 		renderUI: function(){},
 		//绑定组件事件接口
@@ -38,17 +43,22 @@ define( function( require, exports, module ){
 
 		//渲染组件
 		render: function( container ){
+			
+			this.getdata();
 			this.renderUI();
 			$( container || document.body ).append( this.boundingBox );
 			this.bindUI();
 			this.syncUI();
-			this.fire( 'completed' );			
+			this.fire('completed');
+			this.listenList['completed'] = [];		
 		},
 
 		//注销组件
 		destroy: function(){
 			this.fire('destrutor');
-			this.destructor();
+			this.listenList['destrutor'] = [];
+			console.log(this.listenList);
+			this.destructor();			
 			this.boundingBox.off();
 			this.boundingBox.remove();
 		}

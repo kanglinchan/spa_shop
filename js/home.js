@@ -6,9 +6,11 @@ define(function(require, exports, module){
 
 	var banner = require('./bannerSilder');
 	var marquee = require('./marquee');
+	var productService = require('./productService');
+	var productNews = require('./productNews');
+	var partner = require('./partner');
 
-	function home(){
-				
+	function home(){				
 		var fullPageHandler =  new fullPageConponent();
 		fullPageHandler
 		.on('completed',function(){
@@ -17,8 +19,21 @@ define(function(require, exports, module){
 		})
 		.on('completed',function(){
 			new marquee()
-			.init({container:'.fullPage_item_1'});
-		}).init();
+			.init({container:'.fullPage_item_1',scrollBox:'#content'});
+		})
+		.on('completed', function(){
+			new productService()
+			.init({container:'.fullPage_item_2'});
+		})
+		.on('completed', function(){
+			new productNews()
+			.init({container:'.fullPage_item_3'});
+		})
+		.on('completed', function(){
+			new partner()
+			.init({container:'.fullPage_item_4'});
+		})
+		.init();
 
 		//返回组件句柄。
 		return fullPageHandler;
@@ -28,7 +43,8 @@ define(function(require, exports, module){
 
 	function fullPageConponent(){
 		this.config = {
-			pageSize:6,
+			pageSize:5,
+			container:'#content'
 		}
 	}
 
@@ -70,16 +86,14 @@ define(function(require, exports, module){
 					if( count >= _that.config.pageSize ){
 						count = _that.config.pageSize -1;
 					}
-					$(this).animate({"scrollTop":count * contentH },1000 , 'easeInQuint', function(){
+					$(this).animate({"scrollTop":count * contentH },700 , 'easeInQuint', function(){
+						$( 'li',_that.fullPage_nav ).each(function(index, el) {
+							$(this).removeClass('active');
+						});
+						$('li:eq( '+count+' )',_that.fullPage_nav).addClass('active');
 						done = true;
 					})
-					$( 'li',_that.fullPage_nav ).each(function(index, el) {
-						$(this).removeClass('active');
-					});
-					$('li:eq( '+count+' )',_that.fullPage_nav).addClass('active');
-				}
-
-				
+				}				
 			},function( event ){
 				event.preventDefault();
 				if(done){
@@ -88,16 +102,23 @@ define(function(require, exports, module){
 					if( count < 0 ){
 						count = 0;
 					}
-					$(this).animate({"scrollTop":count * contentH }, 1000, 'easeInQuint',function(){
+					$(this).animate({"scrollTop":count * contentH }, 700, 'easeInQuint',function(){
+						$( 'li',_that.fullPage_nav ).each(function(index, el) {
+							$(this).removeClass('active');
+						});
+						$('li:eq( '+count+' )',_that.fullPage_nav).addClass('active');
 						done = true;
 					});
-					$( 'li',_that.fullPage_nav ).each(function(index, el) {
-						$(this).removeClass('active');
-					});
-					$('li:eq( '+count+' )',_that.fullPage_nav).addClass('active');
 				}
 				
 			});
+
+		},
+
+		destructor:function(){
+			this.fullPage_nav.remove();
+			this.parent.css("overflow",'auto');
+			this.parent.removemouseWheel();
 		},
 
 		syncUI:function(){
@@ -113,13 +134,27 @@ define(function(require, exports, module){
 			$('li:first', this.fullPage_nav ).addClass('active');
 		},
 
-		destructor:function(){
-			alert('没注销');
-		},
 
+		/*this.des( function(){
+			setTimeout(funtion(){
+				alert('ddd');
+			}, '2s');
+		}),{
+			this.boundingBox.animate({
+				marginLeft: '-2000px'},
+				'speed', function() {
+				 stuff to do after animation is complete 
+				this.next();
+				console.log(this);
+			});
+
+
+			//alert('没注销');
+		},
+*/
 		init:function(config){
 			$.extend(this.config, config);
-			this.render($('#content'));
+			this.render($(this.config.container));
 			this.fire( 'init' );
 			return this;
 		}
