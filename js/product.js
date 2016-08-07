@@ -6,6 +6,7 @@ define(function(require, exports, module){
 	function productPage(){
 		this.config = {
 			container:'#content',
+			type:'all',
 			contents:[{
 				href:'',
 				picture:'./img/product.jpg',
@@ -95,7 +96,7 @@ define(function(require, exports, module){
 			this.boundingBox = $('<div class="product"></div>');
 
 			$category =$('<ul class="product_category">'+
-							'<li><a class="active" href="#product">全部</a></li>'+
+							'<li><a class="product_category_all active" href="#product">全部</a></li>'+
 							'<li><a  class="product_category_male"  href="#product-male">男款</a></li>'+
 							'<li><a class="product_category_female" href="#product-female">女款</a></li>'+
 						'</ul>');
@@ -126,7 +127,7 @@ define(function(require, exports, module){
 			$('.product_content li').hover(function() {
 				timeId = setTimeout($.proxy(function(){
 					var h = $('img',this).width() / 2;
-					$('i' ,this).animate({opacity: '0.8', 'top':h+'px'},'500');
+					$('i' ,this).animate({opacity: '0.6', 'top':(h-20)+'px'},'500');
 					$('h4',this).css('color','#ff072a');
 					$('.product_category_content_progress', this).animate({width: '100%'},'500');
 				}, this) , '200');
@@ -136,12 +137,15 @@ define(function(require, exports, module){
 				$('h4',this).css('color','#565656');
 				$('.product_category_content_progress', this).animate({width: '0%'},'500');
 			});
+		},
 
-/*			$('.product_category li').on('click',  $.proxy( function(event) {
-				event.preventDefault();
-				$()
-			}, this));*/
-
+		syncUI:function(){
+			var self = this;
+			$('.product_category a').removeClass('active').each(function(index, el) {
+				if( $(this).attr("class").search( '_'+self.config.type ) != -1){
+					$(this).addClass('active');
+				};
+			});
 		},
 
 		init:function(conifg){
@@ -150,43 +154,39 @@ define(function(require, exports, module){
 			if( typeof( this.config.container ) == undefined ){
 				console.log('参数错误，格式：{container:selector}');
 			}
-			console.log( this.config );
 			this.render( $(this.config.container) );
 			
 		}
 	});
 	
 	function product( arguments ){
+		var	instance = new productPage();
 		var arguments = arguments[0];
 		if( arguments == 'female' ){
-			//alert('female');
-			var url = 'product1.json';
-			alert(url)
+			var type =  'female';
+			var url = 'data/productFemale.json';
 		}else if(arguments === 'male' ){
-			alert('male');
-		}else{
-			alert('undefined');
+			var type =  'male';
+			var url = 'data/productMale.json';
 		}
 
-		$.ajax({
-			url: url,
-			type: 'GET',
-			dataType: 'json',
-		})
-		.done(function() {
-			console.log("success");
-		})
-		.fail(function() {
-			console.log("error");
-		})
-		.always(function() {
-			console.log("complete");
-		});
+		if( typeof arguments !== 'undefined' ){
+			$.ajax({
+				url: url,
+				type: 'GET',
+				dataType: 'json',
+			})
+			.done(function(data) {
+				instance.init( $.extend({},data,{"type":type}) );
+			})
+			.fail(function(error,info) {
+				console.dir(error);
+				console.dir(info);
+			})
+		}else{
+			instance.init();
+		}
 		
-
-		var	instance = new productPage();
-
-		instance.init({'url':url});
 
 		return instance;
 	}

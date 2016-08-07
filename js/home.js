@@ -12,9 +12,11 @@ define(function(require, exports, module){
 
 	function home(){				
 		var fullPageHandler =  new fullPageConponent();
+		var self = this;
 		fullPageHandler
 		.on('completed',function(){
-			new banner()
+			console.log(self);
+			self.banner = new banner()
 			.init({container:'.fullPage_item_0'});
 		})
 		.on('completed',function(){
@@ -32,6 +34,9 @@ define(function(require, exports, module){
 		.on('completed', function(){
 			new partner()
 			.init({container:'.fullPage_item_4'});
+		})
+		.on('destrutor',function(){
+			self.banner.destroy();
 		})
 		.init();
 

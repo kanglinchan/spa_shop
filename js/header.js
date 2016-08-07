@@ -24,13 +24,13 @@ define( function(require, exports , module){
 					'<li class="nav_item"><a href="#product">产品展示</a></li>'+
 					'<li class="nav_item nav_item_has_child"><a href="javascript:;">关于</a>'+
 						'<ul class="nav_child">'+
-							'<li class="nav_child_item"><a href="#about/brand">关于品牌</a><i>></i></li>'+
-							'<li class="nav_child_item"><a href="#about/history">公司历程</a><i>></i></li>'+
+							'<li class="nav_child_item"><a href="#brand">关于品牌</a><i>></i></li>'+
+							'<li class="nav_child_item"><a href="#history">公司历程</a><i>></i></li>'+
 						'</ul>'+
 					'</li>'+
-					'<li class="nav_item"><a href="#new">新闻</a></li>'+
+					'<li class="nav_item"><a href="#news">新闻</a></li>'+
 					'<li class="nav_item"><a href="#service">服务</a></li>'+
-					'<li class="nav_item"><a href="#connat">联系</a></li>'+
+					'<li class="nav_item"><a href="#contact">联系</a></li>'+
 					'</ul>'+
 				'</div>'
 				);

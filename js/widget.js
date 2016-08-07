@@ -29,9 +29,6 @@ define( function( require, exports, module ){
 			}
 		},
 
-
-		//获取数据
-		getdata:function(){},
 		//渲染组件结构接口
 		renderUI: function(){},
 		//绑定组件事件接口
@@ -43,8 +40,6 @@ define( function( require, exports, module ){
 
 		//渲染组件
 		render: function( container ){
-			
-			this.getdata();
 			this.renderUI();
 			$( container || document.body ).append( this.boundingBox );
 			this.bindUI();
